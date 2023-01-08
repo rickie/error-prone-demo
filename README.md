@@ -1,1 +1,1 @@
-# error-prone-demo
+# Error Prone (Support) demo
