@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>error-prone-demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>error-prone-demo</name>
+    <url>https://error-prone.picnic.tech</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <error-prone.version>2.17.0</error-prone.version>
+        <error-prone-support.version>0.7.0</error-prone-support.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.5</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            <plugins>
+                <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.10.1</version>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <!-- Error Prone itself. -->
+                            <path>
+                                <groupId>com.google.errorprone</groupId>
+                                <artifactId>error_prone_core</artifactId>
+                                <version>${error-prone.version}</version>
+                            </path>
+                            <!-- Error Prone Support's additional bug checkers. -->
+                            <path>
+                                <groupId>tech.picnic.error-prone-support</groupId>
+                                <artifactId>error-prone-contrib</artifactId>
+                                <version>${error-prone-support.version}</version>
+                            </path>
+                            <!-- Error Prone Support's Refaster templates. -->
+                            <path>
+                                <groupId>tech.picnic.error-prone-support</groupId>
+                                <artifactId>refaster-runner</artifactId>
+                                <version>${error-prone-support.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <compilerArgs>
+                            <arg>
+                                -Xplugin:ErrorProne
+                                <!-- We use a separate Maven profile to
+                                raise all warnings as errors. This way one
+                                can optionally collect all warnings without
+                                failing the build on the first error
+                                encountered. -->
+                                -XepAllErrorsAsWarnings
+                                <!-- -XepAllSuggestionsAsWarnings-->
+                                <!-- We want to enable almost all Error
+                                Prone bug pattern checkers, so we enable
+                                all and then selectively deactivate some. -->
+                                -XepAllDisabledChecksAsWarnings
+                                <!-- Some generated classes violate Error
+                                Prone bug patterns. We cannot in all cases
+                                avoid that, so we simply tell Error Prone
+                                not to warn about generated code. -->
+                                -XepDisableWarningsInGeneratedCode
+                                <!-- We don't target Android. -->
+                                -Xep:AndroidJdkLibsChecker:OFF
+                                <!-- We don't target JDK 7. -->
+                                -Xep:Java7ApiChecker:OFF
+                                <!-- We don't target JDK 8. -->
+                                -Xep:Java8ApiChecker:OFF
+                                <!-- Refaster name pattern: -->
+                                -XepOpt:Refaster:NamePattern=^(?!(Immutable.*Rules)).*
+                            </arg>
+                            <arg>-XDcompilePolicy=simple</arg>
+                        </compilerArgs>
+                        <showWarnings>true</showWarnings>
+                        <failOnWarning>true</failOnWarning>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+                <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
