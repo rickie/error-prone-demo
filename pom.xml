@@ -97,14 +97,34 @@
                                 avoid that, so we simply tell Error Prone
                                 not to warn about generated code. -->
                                 -XepDisableWarningsInGeneratedCode
+                                -XepExcludedPaths:\Q${project.build.directory}${file.separator}\E.*
                                 <!-- We don't target Android. -->
                                 -Xep:AndroidJdkLibsChecker:OFF
                                 <!-- We don't target JDK 7. -->
                                 -Xep:Java7ApiChecker:OFF
                                 <!-- We don't target JDK 8. -->
                                 -Xep:Java8ApiChecker:OFF
-                                <!-- Refaster name pattern: -->
+                                <!-- Refaster name pattern example:
                                 -XepOpt:Refaster:NamePattern=^(?!(Immutable.*Rules)).*
+                                -->
+                                <!--
+                                START Error Prone Support configuration.
+                                -->
+                                <!-- XXX: Enable once sufficiently
+                                configurable. -->
+                                -Xep:LexicographicalAnnotationListing:OFF
+                                <!-- XXX: Enable once false positives no longer
+                                have a major performance impact. -->
+                                -Xep:MethodReferenceUsage:OFF
+                                <!-- XXX: Disabled as it is not a clear
+                                improvement. -->
+                                -Xep:StringJoin:OFF
+                                -XepOpt:ErrorProneSupport:IgnoreClasspathCompat=true
+                                -XepOpt:LexicographicalAnnotationAttributeListing:Excludes=com.picnic.jooq.annotation.SpringPostgresTestContainer#flywaySchemas
+                                -XepOpt:RequestParamType:SupportedCustomTypes=com.google.common.collect.ImmutableCollection
+                                <!--
+                                END Error Prone Support configuration.
+                                -->
                             </arg>
                             <arg>-XDcompilePolicy=simple</arg>
                         </compilerArgs>
