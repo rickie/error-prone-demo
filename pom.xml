@@ -17,6 +17,9 @@
         <maven.compiler.target>17</maven.compiler.target>
         <error-prone.version>2.17.0</error-prone.version>
         <error-prone-support.version>0.7.0</error-prone-support.version>
+        <!-- Property using which additional Error Prone flags can be
+        specified. Used by the `patch` profile. -->
+        <error-prone.patch-args />
     </properties>
 
     <dependencies>
@@ -31,7 +34,6 @@
             <artifactId>guava</artifactId>
             <version>31.1-jre</version>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -79,6 +81,7 @@
                             </path>
                         </annotationProcessorPaths>
                         <compilerArgs>
+                            <!-- Enable and configure Error Prone. -->
                             <arg>
                                 -Xplugin:ErrorProne
                                 <!-- We use a separate Maven profile to
@@ -125,6 +128,8 @@
                                 <!--
                                 END Error Prone Support configuration.
                                 -->
+                                <!-- Append additional custom arguments. -->
+                                ${error-prone.patch-args}
                             </arg>
                             <arg>-XDcompilePolicy=simple</arg>
                         </compilerArgs>
