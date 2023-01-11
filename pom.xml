@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
@@ -12,27 +10,27 @@
     <url>https://error-prone.picnic.tech</url>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <error-prone.version>2.17.0</error-prone.version>
-        <error-prone-support.version>0.7.0</error-prone-support.version>
         <!-- Property using which additional Error Prone flags can be
         specified. Used by the `patch` profile. -->
         <error-prone.patch-args />
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.error-prone>2.17.0</version.error-prone>
+        <version.error-prone-support>0.7.0</version.error-prone-support>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.13.2</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>31.1-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.2</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -41,16 +39,15 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -60,8 +57,36 @@
 
     <build>
         <pluginManagement>
-            <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            <!-- lock down plugins versions to avoid using Maven defaults (as
+            they may be moved to parent pom) -->
             <plugins>
+                <plugin>
+                    <groupId>com.github.ekryd.sortpom</groupId>
+                    <artifactId>sortpom-maven-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <configuration>
+                        <createBackupFile>false</createBackupFile>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <expandEmptyElements>false</expandEmptyElements>
+                        <nrOfIndentSpace>4</nrOfIndentSpace>
+                        <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+                        <sortDependencies>groupId,artifactId</sortDependencies>
+                        <sortDependencyExclusions>groupId,artifactId</sortDependencyExclusions>
+                        <sortModules>true</sortModules>
+                        <sortPlugins>groupId,artifactId</sortPlugins>
+                        <sortProperties>true</sortProperties>
+                        <verifyFail>warn</verifyFail>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>verify-pom-sorting</id>
+                            <goals>
+                                <goal>verify</goal>
+                            </goals>
+                            <phase>verify</phase>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>com.spotify.fmt</groupId>
                     <artifactId>fmt-maven-plugin</artifactId>
@@ -84,108 +109,31 @@
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
-                <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.10.1</version>
-                    <configuration>
-                        <annotationProcessorPaths>
-                            <!-- Error Prone itself. -->
-                            <path>
-                                <groupId>com.google.errorprone</groupId>
-                                <artifactId>error_prone_core</artifactId>
-                                <version>${error-prone.version}</version>
-                            </path>
-                            <!-- Error Prone Support's additional bug checkers. -->
-                            <path>
-                                <groupId>tech.picnic.error-prone-support</groupId>
-                                <artifactId>error-prone-contrib</artifactId>
-                                <version>${error-prone-support.version}</version>
-                            </path>
-                            <!-- Error Prone Support's Refaster templates. -->
-                            <path>
-                                <groupId>tech.picnic.error-prone-support</groupId>
-                                <artifactId>refaster-runner</artifactId>
-                                <version>${error-prone-support.version}</version>
-                            </path>
-                        </annotationProcessorPaths>
-                        <compilerArgs>
-                            <!-- Enable and configure Error Prone. -->
-                            <arg>
-                                -Xplugin:ErrorProne
-                                <!-- We use a separate Maven profile to
-                                raise all warnings as errors. This way one
-                                can optionally collect all warnings without
-                                failing the build on the first error
-                                encountered. -->
-                                -XepAllErrorsAsWarnings
-                                <!-- -XepAllSuggestionsAsWarnings-->
-                                <!-- We want to enable almost all Error
-                                Prone bug pattern checkers, so we enable
-                                all and then selectively deactivate some. -->
-                                -XepAllDisabledChecksAsWarnings
-                                <!-- Some generated classes violate Error
-                                Prone bug patterns. We cannot in all cases
-                                avoid that, so we simply tell Error Prone
-                                not to warn about generated code. -->
-                                -XepDisableWarningsInGeneratedCode
-                                -XepExcludedPaths:\Q${project.build.directory}${file.separator}\E.*
-                                <!-- We don't target Android. -->
-                                -Xep:AndroidJdkLibsChecker:OFF
-                                <!-- We don't target JDK 7. -->
-                                -Xep:Java7ApiChecker:OFF
-                                <!-- We don't target JDK 8. -->
-                                -Xep:Java8ApiChecker:OFF
-                                <!-- Refaster name pattern example:
-                                -XepOpt:Refaster:NamePattern=^(?!(Immutable.*Rules)).*
-                                -->
-                                <!--
-                                START Error Prone Support configuration.
-                                -->
-                                <!-- XXX: Enable once sufficiently
-                                configurable. -->
-                                -Xep:LexicographicalAnnotationListing:OFF
-                                <!-- XXX: Enable once false positives no longer
-                                have a major performance impact. -->
-                                -Xep:MethodReferenceUsage:OFF
-                                <!-- XXX: Disabled as it is not a clear
-                                improvement. -->
-                                -Xep:StringJoin:OFF
-                                -XepOpt:ErrorProneSupport:IgnoreClasspathCompat=true
-                                -XepOpt:LexicographicalAnnotationAttributeListing:Excludes=com.picnic.jooq.annotation.SpringPostgresTestContainer#flywaySchemas
-                                -XepOpt:RequestParamType:SupportedCustomTypes=com.google.common.collect.ImmutableCollection
-                                <!--
-                                END Error Prone Support configuration.
-                                -->
-                                <!-- Append additional custom arguments. -->
-                                ${error-prone.patch-args}
-                            </arg>
-                            <arg>-XDcompilePolicy=simple</arg>
-                        </compilerArgs>
-                        <showWarnings>true</showWarnings>
-                        <failOnWarning>true</failOnWarning>
-                    </configuration>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>2.5.2</version>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
                 </plugin>
                 <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
                 <plugin>
@@ -193,10 +141,127 @@
                     <version>3.7.1</version>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- An extension of the `build-checks` profile which configures
+            Error Prone. This configuration is defined in a separate profile so
+            that it can be combined with the `patch` profile below, without
+            introducing the overhead of other build checks. -->
+            <id>error-prone</id>
+            <activation>
+                <property>
+                    <name>!verification.skip</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <annotationProcessorPaths combine.children="append">
+                                <!--  <path>-->
+                                <!--      <groupId>com.github.PicnicSupermarket.error-prone</groupId>-->
+                                <!--      <artifactId>error_prone_core</artifactId>-->
+                                <!--      <version>${version.error-prone}</version>-->
+                                <!--  </path>-->
+                                <!-- Error Prone itself. -->
+                                <path>
+                                    <groupId>com.google.errorprone</groupId>
+                                    <artifactId>error_prone_core</artifactId>
+                                    <version>${version.error-prone}</version>
+                                </path>
+                                <!-- Error Prone Support's additional bug checkers. -->
+                                <path>
+                                    <groupId>tech.picnic.error-prone-support</groupId>
+                                    <artifactId>error-prone-contrib</artifactId>
+                                    <version>${version.error-prone-support}</version>
+                                </path>
+                                <!-- Error Prone Support's Refaster templates. -->
+                                <path>
+                                    <groupId>tech.picnic.error-prone-support</groupId>
+                                    <artifactId>refaster-runner</artifactId>
+                                    <version>${version.error-prone-support}</version>
+                                </path>
+                            </annotationProcessorPaths>
+                            <compilerArgs>
+                                <!-- Enable and configure Error Prone. -->
+                                <arg>
+                                    -Xplugin:ErrorProne
+                                    <!-- We use a separate Maven profile to
+                                    raise all warnings as errors. This way one
+                                    can optionally collect all warnings without
+                                    failing the build on the first error
+                                    encountered. -->
+                                    <!--                                    -XepAllErrorsAsWarnings-->
+                                    <!-- -XepAllSuggestionsAsWarnings-->
+                                    <!-- We want to enable almost all Error
+                                    Prone bug pattern checkers, so we enable
+                                    all and then selectively deactivate some. -->
+                                    -XepAllDisabledChecksAsWarnings
+                                    <!-- Some generated classes violate Error
+                                    Prone bug patterns. We cannot in all cases
+                                    avoid that, so we simply tell Error Prone
+                                    not to warn about generated code. -->
+                                    -XepDisableWarningsInGeneratedCode
+                                    -XepExcludedPaths:\Q${project.build.directory}${file.separator}\E.*
+                                    <!-- We don't target Android. -->
+                                    -Xep:AndroidJdkLibsChecker:OFF
+                                    <!-- We don't target JDK 7. -->
+                                    -Xep:Java7ApiChecker:OFF
+                                    <!-- We don't target JDK 8. -->
+                                    -Xep:Java8ApiChecker:OFF
+                                    <!-- Refaster name pattern example:
+                                    -XepOpt:Refaster:NamePattern=^(?!(Immutable.*Rules)).*
+                                    -->
+                                    <!--
+                                    START Error Prone Support configuration.
+                                    -->
+                                    <!-- XXX: Enable once sufficiently
+                                    configurable. -->
+                                    -Xep:LexicographicalAnnotationListing:OFF
+                                    <!-- XXX: Enable once false positives no longer
+                                    have a major performance impact. -->
+                                    -Xep:MethodReferenceUsage:OFF
+                                    <!-- XXX: Disabled as it is not a clear
+                                    improvement. -->
+                                    -Xep:StringJoin:OFF
+                                    -XepOpt:ErrorProneSupport:IgnoreClasspathCompat=true
+                                    <!--
+                                    END Error Prone Support configuration.
+                                    -->
+                                    <!-- Append additional custom arguments. -->
+                                    ${error-prone.patch-args}
+                                </arg>
+                                <arg>-XDcompilePolicy=simple</arg>
+                            </compilerArgs>
+                            <showWarnings>true</showWarnings>
+                            <!--                            <failOnWarning>true</failOnWarning>-->
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- If combined with the `error-prone` profile above, this profile
+            configures Error Prone to try and automatically fix (rather than
+            merely flag) bug pattern violations in the source code. -->
+            <id>patch</id>
+            <activation>
+                <property>
+                    <name>error-prone.patch-checks</name>
+                </property>
+            </activation>
+            <properties>
+                <error-prone.patch-args>-XepPatchChecks:${error-prone.patch-checks} -XepPatchLocation:IN_PLACE</error-prone.patch-args>
+            </properties>
+        </profile>
+    </profiles>
 </project>
