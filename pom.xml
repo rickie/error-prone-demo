@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
@@ -12,7 +13,7 @@
     <properties>
         <!-- Property using which additional Error Prone flags can be
         specified. Used by the `patch` profile. -->
-        <error-prone.patch-args />
+        <error-prone.patch-args/>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -247,13 +248,11 @@
             configures Error Prone to try and automatically fix (rather than
             merely flag) bug pattern violations in the source code. -->
             <id>patch</id>
-            <activation>
-                <property>
-                    <name>error-prone.patch-checks</name>
-                </property>
-            </activation>
             <properties>
-                <error-prone.patch-args>-XepPatchChecks:${error-prone.patch-checks} -XepPatchLocation:IN_PLACE</error-prone.patch-args>
+                <error-prone.patch-args>-XepPatchChecks:${error-prone.patch-checks} -XepPatchLocation:IN_PLACE
+                </error-prone.patch-args>
+                <!-- One can override this value to specify which checks should be patched. -->
+                <error-prone.patch-checks/>
             </properties>
         </profile>
     </profiles>
