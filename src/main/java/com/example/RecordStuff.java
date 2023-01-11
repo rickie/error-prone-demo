@@ -1,6 +1,6 @@
-//package com.example;
+// package com.example;
 //
-//public record RecordStuff(String bar) {
+// public record RecordStuff(String bar) {
 //  @SuppressWarnings("unused")
 //  public RecordStuff {}
-//}
+// }
