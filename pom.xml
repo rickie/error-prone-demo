@@ -16,7 +16,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.error-prone>2.17.0</version.error-prone>
+        <version.error-prone>2.17.0-picnic-3</version.error-prone>
         <version.error-prone-support>0.7.0</version.error-prone-support>
     </properties>
 
@@ -57,8 +57,6 @@
 
     <build>
         <pluginManagement>
-            <!-- lock down plugins versions to avoid using Maven defaults (as
-            they may be moved to parent pom) -->
             <plugins>
                 <plugin>
                     <groupId>com.github.ekryd.sortpom</groupId>
@@ -167,14 +165,9 @@
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
                             <annotationProcessorPaths combine.children="append">
-                                <!--  <path>-->
-                                <!--      <groupId>com.github.PicnicSupermarket.error-prone</groupId>-->
-                                <!--      <artifactId>error_prone_core</artifactId>-->
-                                <!--      <version>${version.error-prone}</version>-->
-                                <!--  </path>-->
-                                <!-- Error Prone itself. -->
+                                <!-- Picnic's Error Prone fork. -->
                                 <path>
-                                    <groupId>com.google.errorprone</groupId>
+                                    <groupId>com.github.PicnicSupermarket.error-prone</groupId>
                                     <artifactId>error_prone_core</artifactId>
                                     <version>${version.error-prone}</version>
                                 </path>
@@ -200,7 +193,7 @@
                                     can optionally collect all warnings without
                                     failing the build on the first error
                                     encountered. -->
-                                    <!--                                    -XepAllErrorsAsWarnings-->
+                                    -XepAllErrorsAsWarnings
                                     <!-- -XepAllSuggestionsAsWarnings-->
                                     <!-- We want to enable almost all Error
                                     Prone bug pattern checkers, so we enable
@@ -243,7 +236,7 @@
                                 <arg>-XDcompilePolicy=simple</arg>
                             </compilerArgs>
                             <showWarnings>true</showWarnings>
-                            <!--                            <failOnWarning>true</failOnWarning>-->
+                            <!-- <failOnWarning>true</failOnWarning> -->
                         </configuration>
                     </plugin>
                 </plugins>
