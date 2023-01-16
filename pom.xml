@@ -211,6 +211,8 @@
                                     -Xep:Java7ApiChecker:OFF
                                     <!-- We don't target JDK 8. -->
                                     -Xep:Java8ApiChecker:OFF
+                                    <!-- We generally discourage `var` use. -->
+                                    -Xep:Varifier:OFF
                                     <!-- Refaster name pattern example:
                                     -XepOpt:Refaster:NamePattern=^(?!(Immutable.*Rules)).*
                                     -->
