@@ -140,7 +140,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.1</version>
+                    <version>2.22.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -148,16 +148,7 @@
 
     <profiles>
         <profile>
-            <!-- An extension of the `build-checks` profile which configures
-            Error Prone. This configuration is defined in a separate profile so
-            that it can be combined with the `patch` profile below, without
-            introducing the overhead of other build checks. -->
             <id>error-prone</id>
-            <activation>
-                <property>
-                    <name>!verification.skip</name>
-                </property>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
