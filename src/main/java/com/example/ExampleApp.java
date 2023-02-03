@@ -7,11 +7,11 @@ public final class ExampleApp {
     if (args.length != 0) {
       new IllegalArgumentException();
     }
-    System.out.println("Hello world!");
+    System.out.println(helloWorld());
   }
 
-  public ImmutableSet<Integer> foo() {
-    ImmutableSet<Integer> set = ImmutableSet.of(1);
+  public static ImmutableSet<String> helloWorld() {
+    ImmutableSet<String> set = ImmutableSet.of("Hello world!");
     return ImmutableSet.copyOf(set);
   }
 }
