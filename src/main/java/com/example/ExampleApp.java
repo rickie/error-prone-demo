@@ -3,6 +3,8 @@ package com.example;
 import com.google.common.collect.ImmutableSet;
 
 public final class ExampleApp {
+  private ExampleApp() {}
+
   public static void main(String[] args) {
     if (args.length != 0) {
       new IllegalArgumentException();
