@@ -199,9 +199,6 @@
                                     <!-- Refaster name pattern example:
                                     -XepOpt:Refaster:NamePattern=^(?!(Immutable.*Rules)).*
                                     -->
-                                    <!-- Temporarily disable this check for the
-                                    demo: -->
-                                    -Xep:SystemOut:OFF
                                     <!--
                                     START Error Prone Support configuration.
                                     -->

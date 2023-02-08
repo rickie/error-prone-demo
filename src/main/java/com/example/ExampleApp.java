@@ -5,11 +5,11 @@ import com.google.common.collect.ImmutableSet;
 public final class ExampleApp {
   private ExampleApp() {}
 
-  public static void main(String[] args) {
+  public static ImmutableSet<String> main(String[] args) {
     if (args.length != 0) {
       new IllegalArgumentException();
     }
-    System.out.println(helloWorld());
+    return helloWorld();
   }
 
   public static ImmutableSet<String> helloWorld() {
