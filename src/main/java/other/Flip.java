@@ -7,10 +7,10 @@
 //    method(args);
 //  }
 //
-//  public void method(String[] args) {
-//    String foo = "foo";
-//    String bar = "bar";
-//    @Var boolean baz = false;
+//  public void method(final String[] args) {
+//    final String foo = "foo";
+//    final String bar = "bar";
+//    boolean baz = false;
 //
 //    if (args.length > 0) {
 //      baz = true;
