@@ -2,14 +2,14 @@ package com.example;
 
 import com.google.common.collect.ImmutableSet;
 
-public final class ExampleApp {
-  private ExampleApp() {}
+public final class HelloWorld {
+  private HelloWorld() {}
 
-  public static ImmutableSet<String> main(String[] args) {
+  public static void main(String[] args) {
     if (args.length != 0) {
       new IllegalArgumentException();
     }
-    return helloWorld();
+    System.out.println(helloWorld());
   }
 
   public static ImmutableSet<String> helloWorld() {
