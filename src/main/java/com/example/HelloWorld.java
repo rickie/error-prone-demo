@@ -16,4 +16,8 @@ public final class HelloWorld {
     ImmutableSet<String> set = ImmutableSet.of("Hello world!");
     return ImmutableSet.copyOf(set);
   }
+
+  public static boolean isEmpty(String str) {
+    return str.length() == 0;
+  }
 }
