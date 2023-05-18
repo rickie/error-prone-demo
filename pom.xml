@@ -228,6 +228,15 @@
                     </plugin>
                 </plugins>
             </build>
+            <!-- The code is built against a Picnic-managed fork of Error
+            Prone. This fork is hosted by Jitpack.io. See
+            https://jitpack.io/#PicnicSupermarket/error-prone. -->
+            <repositories>
+                <repository>
+                    <id>jitpack.io</id>
+                    <url>https://jitpack.io</url>
+                </repository>
+            </repositories>
         </profile>
         <profile>
             <!-- If combined with the `error-prone` profile above, this profile
