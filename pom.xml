@@ -16,8 +16,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.error-prone>2.17.0-picnic-3</version.error-prone>
-        <version.error-prone-support>0.7.0</version.error-prone-support>
+        <version.error-prone>2.19.1-picnic-1</version.error-prone>
+        <version.error-prone-support>0.11.1</version.error-prone-support>
     </properties>
 
     <dependencyManagement>
