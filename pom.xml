@@ -16,8 +16,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.error-prone>2.19.1-picnic-1</version.error-prone>
-        <version.error-prone-support>0.11.1</version.error-prone-support>
+        <version.error-prone>2.22.0-picnic-1</version.error-prone>
+        <version.error-prone-support>0.14.0</version.error-prone-support>
     </properties>
 
     <dependencyManagement>
@@ -88,7 +88,7 @@
                 <plugin>
                     <groupId>com.spotify.fmt</groupId>
                     <artifactId>fmt-maven-plugin</artifactId>
-                    <version>2.19</version>
+                    <version>2.21.1</version>
                     <configuration>
                         <forkMode>never</forkMode>
                         <failOnError>false</failOnError>
