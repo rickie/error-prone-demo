@@ -16,8 +16,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.error-prone>2.22.0-picnic-1</version.error-prone>
-        <version.error-prone-support>0.14.0</version.error-prone-support>
+        <version.error-prone>v2.26.1-picnic-2</version.error-prone>
+        <version.error-prone-support>0.16.1</version.error-prone-support>
     </properties>
 
     <dependencyManagement>
@@ -207,9 +207,6 @@
                                     <!-- XXX: Enable once sufficiently
                                     configurable. -->
                                     -Xep:LexicographicalAnnotationListing:OFF
-                                    <!-- XXX: Enable once false positives no longer
-                                    have a major performance impact. -->
-                                    -Xep:MethodReferenceUsage:OFF
                                     <!-- XXX: Disabled as it is not a clear
                                     improvement. -->
                                     -Xep:StringJoin:OFF
