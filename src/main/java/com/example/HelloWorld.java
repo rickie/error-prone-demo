@@ -1,5 +1,6 @@
 package com.example;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 public final class HelloWorld {
@@ -15,6 +16,10 @@ public final class HelloWorld {
   public static ImmutableSet<String> helloWorld() {
     ImmutableSet<String> set = ImmutableSet.of("Hello world!");
     return ImmutableSet.copyOf(set);
+  }
+
+  public static ImmutableList<Integer> helloWorldCharacters() {
+    return "Hello World!".chars().boxed().collect(ImmutableList.toImmutableList());
   }
 
   public static boolean isEmpty(String str) {
